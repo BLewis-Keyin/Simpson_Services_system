@@ -19,6 +19,7 @@ f = open('constants.dat', 'r')
 employee_num = int(f.readline().strip())
 customer_num = int(f.readline().strip())
 item_num = int(f.readline().strip())
+dependent_num = int(f.readline().strip())
 HST = float(f.readline().strip())
 f.close()
 
@@ -28,6 +29,7 @@ provlist = ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'S
 
 def new_employee():
     global employee_num
+    global dependent_num
     is_entering_new_employee = True
     while is_entering_new_employee:
         print("Simpson Carpet World Employee registration\nPlease input the information below:")
@@ -47,6 +49,17 @@ def new_employee():
         while True:
             e_city = input("Employee City: ").capitalize()
             break
+
+        while True:
+            e_postcode = input("Employee Postal Code: ").upper().replace("-", "").replace(" ", "")
+            if len(e_postcode) > 6:
+                print("ERROR: Postal code length exceeds maximum amount (6 characters)")
+            elif len(e_postcode) == 0:
+                print("ERROR: Nothing was entered")
+            elif e_postcode[0:5:2].isalpha() is False or e_postcode[1:6:2].isdigit() is False:
+                print("ERROR: Invalid postal code format (X9X9X9)")
+            else:
+                break
 
         while True:
             e_province = input("Employee Province: ").upper()
@@ -94,7 +107,6 @@ def new_employee():
             if e_num_dep > 0:
                 dependant_info = []
                 for x in range(e_num_dep):
-                    dependant_info.append(f"Dependant {x + 1}:")
                     dependant_info.append(input(f" Enter Dependant {x + 1} Name: "))
                     dependant_info.append(input(" Enter Dependant Age: "))
                     dependant_info.append(input(" Enter Dependant Relationship: "))
@@ -108,6 +120,15 @@ def new_employee():
             employee_num += 1
             print("Employee information saved\n")
 
+        if e_num_dep > 0:
+            with open('dependents.dat', 'a') as g:
+                g.write(f'{dependent_num},{e_first_name}, {e_last_name}, {dependant_info[0]}, {dependant_info[1]}, {dependant_info[2]}\n')
+                dependent_num += 1
+                if e_num_dep > 1:
+                    for x in range(1, e_num_dep):
+                        g.write(f'{dependent_num},{e_first_name}, {e_last_name}, {dependant_info[3 * x]}, {dependant_info[(3 * x) + 1]}, {dependant_info[(3 * x) + 2]}\n')
+                        dependent_num += 1
+
         while True:
             option_1_end = input("Press 1 to enter another employee or END to exit: ").upper()
             if option_1_end == 1:
@@ -118,6 +139,7 @@ def new_employee():
                     r.write(f'{employee_num}\n')
                     r.write(f'{customer_num}\n')
                     r.write(f'{item_num}\n')
+                    r.write(f'{dependent_num}')
                     r.write(f'{HST}\n')
                 break
 
