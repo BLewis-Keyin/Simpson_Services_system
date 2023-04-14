@@ -28,7 +28,7 @@ provlist = ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'S
 
 
 def new_employee():
-    global employee_num
+    global employee_num, e_entry_confirmed
     global dependent_num
     is_entering_new_employee = True
     while is_entering_new_employee:
@@ -41,6 +41,14 @@ def new_employee():
         while True:
             e_last_name = input("Employee Last Name: ").capitalize()
             break
+
+        while True:
+            try:
+                e_date_of_birth = input("Employee Date of Birth (MM-DD-YYYY): ")
+                e_date_of_birth = datetime.datetime.strptime(e_date_of_birth, "%m-%d-%Y").date()
+                break
+            except:
+                print("Invalid input, please try again")
 
         while True:
             e_address = input("Employee Street Address: ").capitalize()
@@ -82,7 +90,7 @@ def new_employee():
         while True:
             try:
                 e_date_of_hire = input("Employee Date of Hire (MM-DD-YYYY): ")
-                e_date_of_hire = datetime.datetime.strptime(e_date_of_hire, "%m-%d-%Y")
+                e_date_of_hire = datetime.datetime.strptime(e_date_of_hire, "%m-%d-%Y").date()
                 break
             except:
                 print("Invalid input, please try again")
@@ -105,36 +113,65 @@ def new_employee():
         while True:
             e_num_dep = int(input("Employee Amount of Dependants: "))
             if e_num_dep > 0:
-                dependant_info = []
+                dependent_list = []
+                dependent_list_name = []
+                dependent_list_age = []
+                dependent_list_relationship = []
                 for x in range(e_num_dep):
-                    dependant_info.append(input(f" Enter Dependant {x + 1} Name: "))
-                    dependant_info.append(input(" Enter Dependant Age: "))
-                    dependant_info.append(input(" Enter Dependant Relationship: "))
+                    dependent_info = {}
+                    dependent_info['Name'] = input(f"Dependent {x + 1} Name: ")
+                    dependent_info['Age'] = input(f"Dependent {x + 1} Age: ")
+                    dependent_info['Relationship'] = input(f"Dependent {x + 1} Relationship: ")
+                    dependent_list_name.append(dependent_info['Name'])
+                    dependent_list_age.append(dependent_info['Age'])
+                    dependent_list_relationship.append(dependent_info['Relationship'])
+                    dependent_info_record = f"{dependent_info['Name']}, {dependent_info['Age']}, {dependent_info['Relationship']}"
+                    dependent_list.append(dependent_info_record)
                 break
             else:
                 break
 
-        with open('employee.dat', 'a') as e:
-            e.write(
-                f"{employee_num}, {e_first_name}, {e_last_name}, {e_address}, {e_city}, {e_province}, {e_telephone}, {e_date_of_hire}, {e_branch}, {e_title}, {e_salary}, {e_num_dep}, {dependant_info}")
-            employee_num += 1
-            print("Employee information saved\n")
+        print(f"EMPLOYEE PHONE:                           {e_telephone}")
+        print(f"EMPLOYEE NAME:                            {e_first_name} {e_last_name}")
+        print(f"EMPLOYEE NUMBER:                          {employee_num}")
+        print(f"EMPLOYEE BIRTH DATE:                      {e_date_of_birth}")
+        print(f"DATE OF HIRE:                             {e_date_of_hire}")
+        print(f"BRANCH                                    {e_branch}")
+        print(f"TITLE:                                    {e_title}")
+        print(f"SALARY:                                   {e_salary}")
+        for x in range(e_num_dep):
+            print(f"DEPENDANT {x + 1} INFO: ")
+            print(f"    NAME:                                 {dependent_list_name[x]}")
+            print(f"    AGE:                                  {dependent_list_age[x]}")
+            print(f"    RELATIONSHIP:                         {dependent_list_relationship[x]}")
 
-        if e_num_dep > 0:
-            with open('dependents.dat', 'a') as g:
-                g.write(f'{dependent_num},{e_first_name}, {e_last_name}, {dependant_info[0]}, {dependant_info[1]}, {dependant_info[2]}\n')
-                dependent_num += 1
-                if e_num_dep > 1:
-                    for x in range(1, e_num_dep):
-                        g.write(f'{dependent_num},{e_first_name}, {e_last_name}, {dependant_info[3 * x]}, {dependant_info[(3 * x) + 1]}, {dependant_info[(3 * x) + 2]}\n')
-                        dependent_num += 1
+        while True:
+            confirm_employee_entry = input("Confirm employee information? (Y/N): ").upper()
+            if confirm_employee_entry == 'Y':
+                is_entering_new_employee = False
+
+                with open('employee.dat', 'a') as e:
+                    e.write(
+                        f"{employee_num}, {e_first_name}, {e_last_name}, {e_address}, {e_city}, {e_province}, {e_telephone}, {e_date_of_hire}, {e_branch}, {e_title}, {e_salary}, {e_num_dep}\n")
+                    employee_num += 1
+                    print("Employee information saved\n")
+
+                if e_num_dep > 0:
+                    with open('dependents.dat', 'a') as g:
+                        for x in range(e_num_dep):
+                            g.write(f'{dependent_num}, {e_first_name}, {e_last_name}, {dependent_list[x]}\n')
+                            dependent_num += 1
+                break
+            elif confirm_employee_entry == 'N':
+                print()
+                break
 
         while True:
             option_1_end = input("Press 1 to enter another employee or END to exit: ").upper()
-            if option_1_end == 1:
+            if option_1_end == '1':
+                is_entering_new_employee = True
                 break
             elif option_1_end == "END":
-                is_entering_new_employee = False
                 with open('constants.dat', "w") as r:
                     r.write(f'{employee_num}\n')
                     r.write(f'{customer_num}\n')
@@ -142,6 +179,7 @@ def new_employee():
                     r.write(f'{dependent_num}')
                     r.write(f'{HST}\n')
                 break
+
 
 # Start of the main program
 while True:
