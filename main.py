@@ -132,7 +132,11 @@ def new_employee():
                 break
 
         print(f"EMPLOYEE PHONE:                           {e_telephone}")
-        print(f"EMPLOYEE NAME:                            {e_first_name} {e_last_name}")
+        print(f"EMPLOYEE NAME:                            {e_first_name} {e_last_name}")+
+        print(f"EMPLOYEE ADDRESS:                         {e_address}")
+        print(f"EMPLOYEE CITY:                            {e_city}")
+        print(f"EMPLOYEE PROVINCE:                        {e_province}")
+        print(f"EMPLOYEE POSTAL CODE:                     {e_postcode}")
         print(f"EMPLOYEE NUMBER:                          {employee_num}")
         print(f"EMPLOYEE BIRTH DATE:                      {e_date_of_birth}")
         print(f"DATE OF HIRE:                             {e_date_of_hire}")
