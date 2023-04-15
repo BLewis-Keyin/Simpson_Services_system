@@ -185,6 +185,131 @@ def new_employee():
                 break
 
 
+def new_item():
+    is_entering_new_item = True
+    global item_num
+
+    while is_entering_new_item:
+        print("Simpson Carpet World New Inventory Item\nPlease input the information below:")
+
+        while True:
+            i_name = input("Item Name: ")
+            if len(i_name) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_type = input("Item Type: ")
+            if len(i_type) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_desc = input("Item Description: ")
+            if len(i_desc) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_colour = input("Item Colour: ")
+            if len(i_colour) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_size = input("Item Size: ")
+            if len(i_size) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_pattern = input("Item Pattern: ")
+            if len(i_pattern) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_cost = input("Item Cost: ")
+            if len(i_cost) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_retail = input("Item Retail Price: ")
+            if len(i_retail) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_qoh = input("Item Quantity on Hand: ")
+            if len(i_qoh) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_reorder = input("Item Reorder Point: ")
+            if len(i_reorder) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        while True:
+            i_max = input("Item Maximum Level: ")
+            if len(i_max) == 0:
+                print("Nothing was entered, please try again.")
+            else:
+                break
+
+        print(f"ITEM NUMBER:                              {item_num}")
+        print(f"ITEM NAME:                                {i_name}")
+        print(f"ITEM TYPE:                                {i_type}")
+        print(f"ITEM DESCRIPTION:                         {i_desc}")
+        print(f"ITEM COLOUR:                              {i_colour}")
+        print(f"ITEM SIZE:                                {i_size}")
+        print(f"ITEM PATTERN:                             {i_pattern}")
+        print(f"ITEM COST:                                {i_cost}")
+        print(f"ITEM RETAIL PRICE:                        {i_retail}")
+        print(f"ITEM QUANTITY:                            {i_qoh}")
+        print(f"ITEM REORDER POINT:                       {i_reorder}")
+        print(f"ITEM MAXIMUM LEVEL:                       {i_max}")
+
+        while True:
+            confirm_item_entry = input("Confirm item information? (Y/N): ").upper()
+            if confirm_item_entry == 'Y':
+                is_entering_new_item = False
+                with open('items.dat', 'a') as e:
+                    e.write(f"{item_num}, {i_name}, {i_type}, {i_desc}, {i_colour}, {i_size}, {i_pattern}, {i_cost}, {i_retail}, {i_qoh}, {i_reorder}, {i_max}\n")
+                    item_num += 1
+                    print("Item information saved\n")
+                break
+            elif confirm_item_entry == 'N':
+                print()
+                break
+
+        while True:
+            option_3_end = input("Press 1 to enter another item or END to exit: ").upper()
+            if option_3_end == '1':
+                is_entering_new_item = True
+                break
+            elif option_3_end == "END":
+                with open('constants.dat', "w") as r:
+                    r.write(f'{employee_num}\n')
+                    r.write(f'{customer_num}\n')
+                    r.write(f'{item_num}\n')
+                    r.write(f'{dependent_num}')
+                    r.write(f'{HST}\n')
+                break
+
+
 # Start of the main program
 while True:
 
@@ -207,7 +332,7 @@ while True:
             menu_choice = int(input("   Enter choice (1-9)  : "))
             if menu_choice < 1:
                 print("")
-                print("ERROR: Value must be 1-5.")
+                print("ERROR: Value must be 1-9.")
                 print("")
             elif menu_choice == 1:
                 print("")
@@ -218,6 +343,7 @@ while True:
                 break
             elif menu_choice == 3:
                 print("")
+                new_item()
                 break
             elif menu_choice == 4:
                 print("")
