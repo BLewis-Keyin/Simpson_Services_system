@@ -180,7 +180,112 @@ def new_employee():
                     r.write(f'{employee_num}\n')
                     r.write(f'{customer_num}\n')
                     r.write(f'{item_num}\n')
-                    r.write(f'{dependent_num}')
+                    r.write(f'{dependent_num}\n')
+                    r.write(f'{HST}\n')
+                break
+
+
+def new_customer():
+    global customer_num
+    global purchases_num
+    is_entering_new_customer = True
+    while is_entering_new_customer:
+        print("Simpson Carpet World Customer registration\nPlease input the information below:")
+        while True:
+            c_first_name = input("Customer First Name: ").capitalize()
+            break
+        while True:
+            c_last_name = input("Customer Last Name: ").capitalize()
+            break
+
+        while True:
+            try:
+                c_date_of_birth = input("Customer Date of Birth (MM-DD-YYYY): ")
+                c_date_of_birth = datetime.datetime.strptime(c_date_of_birth, "%m-%d-%Y").date()
+                break
+            except:
+                print("Invalid input, please try again")
+
+        while True:
+            c_address = input("Customer Street Address: ").capitalize()
+            break
+
+        while True:
+            c_city = input("Customer City: ").capitalize()
+            break
+
+        while True:
+            c_postcode = input("Customer Postal Code: ").upper().replace("-", "").replace(" ", "")
+            if len(c_postcode) > 6:
+                print("ERROR: Postal code length exceeds maximum amount (6 characters)")
+            elif len(c_postcode) == 0:
+             print("ERROR: Nothing was entered")
+            elif c_postcode[0:5:2].isalpha() is False or c_postcode[1:6:2].isdigit() is False:
+                print("ERROR: Invalid postal code format (X9X9X9)")
+            else:
+                break
+
+        while True:
+            c_province = input("Customer Province: ").upper()
+            if len(c_province) != 2:
+                print("Province must be in format XX")
+            elif c_province not in provlist:
+                print("Invalid Province, please enter a valid province")
+            else:
+                break
+
+        while True:
+            c_telephone = input("Customer Telephone: ").replace('-', '').replace('(', '').replace(')', '').replace(' ', '')
+            if c_telephone.isdigit() == False:
+                print("Telephone Number must only contain numbers")
+            elif len(c_telephone) != 10:
+                print("Telephone Number must be on 10 digits in length")
+            else:
+                break
+
+        while True:
+            try:
+                c_date_of_joining = input("Customer Date of Joining (MM-DD-YYYY): ")
+                c_date_of_joining = datetime.datetime.strptime(c_date_of_joining, "%m-%d-%Y").date()
+                break
+            except:
+                print("Invalid input, please try again")
+
+        while True:
+            c_branch = input("Customer Branch: ")
+            break
+        print()
+        print(f"CUSTOMER NAME:                            {c_first_name} {c_last_name}")
+        print(f"CUSTOMER NUMBER:                          {customer_num}")
+        print(f"CUSTOMER BIRTH DATE:                      {c_date_of_birth}")
+        print(f"DATE OF JOINING:                          {c_date_of_joining}")
+        print(f"BRANCH JOINED AT                          {c_branch}")
+
+        while True:
+            confirm_customer_entry = input("Confirm customer information? (Y/N): ").upper()
+            if confirm_customer_entry == 'Y':
+                is_entering_new_customer = False
+                with open('customers.dat', 'a') as c:
+                    c.write(
+                        f"{customer_num}, {c_first_name}, {c_last_name}, {c_address}, {c_city}, {c_province}, {c_telephone}, {c_date_of_birth}, {c_date_of_joining} {c_branch}\n")
+                customer_num += 1
+                print("Customer information saved\n")
+                break
+            elif confirm_customer_entry == 'N':
+                print()
+                break
+
+        while True:
+            option_2_end = input("Press 1 to enter another customer or END to exit: ").upper()
+            if option_2_end == '1':
+                is_entering_new_customer = True
+                break
+            elif option_2_end == "END":
+                with open('constants.dat', "w") as r:
+                    r.write(f'{employee_num}\n')
+                    r.write(f'{customer_num}\n')
+                    r.write(f'{item_num}\n')
+                    r.write(f'{dependent_num}\n')
                     r.write(f'{HST}\n')
                 break
 
@@ -305,7 +410,7 @@ def new_item():
                     r.write(f'{employee_num}\n')
                     r.write(f'{customer_num}\n')
                     r.write(f'{item_num}\n')
-                    r.write(f'{dependent_num}')
+                    r.write(f'{dependent_num}\n')
                     r.write(f'{HST}\n')
                 break
 
@@ -340,6 +445,7 @@ while True:
                 break
             elif menu_choice == 2:
                 print("")
+                new_customer()
                 break
             elif menu_choice == 3:
                 print("")
