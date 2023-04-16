@@ -270,7 +270,7 @@ def new_customer():
                 is_entering_new_customer = False
                 with open('customers.dat', 'a') as c:
                     c.write(
-                        f"{customer_num}, {c_first_name}, {c_last_name}, {c_address}, {c_city}, {c_province}, {c_telephone}, {c_date_of_birth}, {c_date_of_joining} {c_branch}\n")
+                        f"{customer_num}, {c_first_name}, {c_last_name}, {c_address}, {c_city}, {c_province}, {c_telephone}, {c_date_of_birth}, {c_date_of_joining}, {c_branch}\n")
                 customer_num += 1
                 print("Customer information saved\n")
                 break
@@ -519,7 +519,7 @@ def new_purchase():
                     print(f"Saving purchase record for customer {p_f_name} {p_l_name}")
                     with open('purchases.dat', 'a') as p:
                         for x in range(p_num):
-                            p.write(f"{purchase_num}, {p_f_name}, {p_l_name}, {p_list[x]}\n")
+                            p.write(f"{purchase_num}, {today}, {p_f_name}, {p_l_name}, {p_list[x]}\n")
                             purchase_num += 1
                         break
                 elif confirm_purchase == 'N':
