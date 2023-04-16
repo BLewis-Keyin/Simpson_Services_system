@@ -13,6 +13,7 @@ HST
 
 # Import modules
 import datetime
+today = datetime.date.today()
 
 # import constants from constants.dat
 f = open('constants.dat', 'r')
@@ -20,6 +21,7 @@ employee_num = int(f.readline().strip())
 customer_num = int(f.readline().strip())
 item_num = int(f.readline().strip())
 dependent_num = int(f.readline().strip())
+purchase_num = int(f.readline().strip())
 HST = float(f.readline().strip())
 f.close()
 
@@ -181,6 +183,7 @@ def new_employee():
                     r.write(f'{customer_num}\n')
                     r.write(f'{item_num}\n')
                     r.write(f'{dependent_num}\n')
+                    r.write(f'{purchase_num}\n')
                     r.write(f'{HST}\n')
                 break
 
@@ -286,6 +289,7 @@ def new_customer():
                     r.write(f'{customer_num}\n')
                     r.write(f'{item_num}\n')
                     r.write(f'{dependent_num}\n')
+                    r.write(f'{purchase_num}\n')
                     r.write(f'{HST}\n')
                 break
 
@@ -411,8 +415,133 @@ def new_item():
                     r.write(f'{customer_num}\n')
                     r.write(f'{item_num}\n')
                     r.write(f'{dependent_num}\n')
+                    r.write(f'{purchase_num}\n')
                     r.write(f'{HST}\n')
                 break
+
+
+def new_purchase():
+    global purchase_num, HST
+    is_entering_new_purchase = True
+
+    hst_accum = float(0)
+    cost_accum = float(0)
+    total_accum = float(0)
+
+    while True:
+        while is_entering_new_purchase:
+            p_f_name = input("Customer First Name: ")
+
+            p_l_name = input("Customer Last Name: ")
+
+            customer_found = False
+            with open('customers.dat', 'r') as p:
+                for customerdataline in p:
+                    customerline = customerdataline.split(",")
+
+                    p_customer_num = customerline[0].strip().replace(" ", "", 0)
+                    p_c_first_name = customerline[1].strip().replace(" ", "", 0)
+                    p_c_last_name = customerline[2].strip().replace(" ", "", 0)
+
+                    if p_c_first_name == p_f_name and p_c_last_name == p_l_name:
+                        customer_found = True
+
+            if not customer_found:
+                print()
+                print("Customer not found, Please try again")
+                print()
+                break
+
+            p_num = int(input("Number of Purchases: "))
+            if p_num > 0:
+                p_list = []
+                p_list_item_name = []
+                p_list_item_branch = []
+                p_list_item_cost = []
+                p_list_item_HST = []
+                p_list_item_total = []
+                for x in range(p_num):
+                    print("    ----------------")
+
+                    p_branch = input(f"    Purchase {x + 1} Branch #: ")
+
+                    p_item_name = input(f"    Purchase {x + 1} Item Name: ")
+
+                    p_item_cost = float(input(f"    Purchase {x + 1} Item Cost: "))
+
+                    p_hst = float(p_item_cost * HST)
+                    p_total = float(p_item_cost + p_hst)
+
+                    cost_accum += p_item_cost
+                    hst_accum += p_hst
+                    total_accum += p_total
+
+                    p_info_record = f"{p_branch}, {p_item_name}, {p_item_cost}"
+                    p_list.append(p_info_record)
+                    p_list_item_name.append(f"{p_item_name}")
+                    p_list_item_branch.append(f"{p_branch}")
+                    p_list_item_cost.append(f"{p_item_cost}")
+                    p_list_item_HST.append(f"{p_hst}")
+                    p_list_item_total.append(f"{p_total}")
+            elif p_num <= 0:
+                print("Error: Must have at least one purchase, please try again")
+                print()
+                break
+
+            if customer_found:
+                print(f"CUSTOMER NAME:                          {p_f_name} {p_l_name}")
+                print(f"CUSTOMER NUMBER:                        {p_customer_num}")
+                print(f"TOTAL PURCHASES:                        {p_num}")
+                for x in range(p_num):
+                    out_item_cost = float(p_list_item_cost[x])
+                    out_item_HST = float(p_list_item_HST[x])
+                    out_item_total = float(p_list_item_total[x])
+                    print()
+                    print(f"  PURCHASE {x + 1} NAME:                               {p_list_item_name[x]}")
+                    print(f"  PURCHASE {x + 1} BRANCH:                             {p_list_item_branch[x]}")
+                    print(f"  PURCHASE {x + 1} COST:                               {f'${out_item_cost:>,.2f}'}")
+                    print(f"  PURCHASE {x + 1} HST:                                {f'${out_item_HST:>,.2f}'}")
+                    print(f"  PURCHASE {x + 1} TOTAL:                              {f'${out_item_total:>,.2f}'}")
+                print()
+                print("-------------------------------------------------------------")
+                print(f"COST:                            {f'${cost_accum:,.2f}':>9}")
+                print(f"HST:                             {f'${hst_accum:,.2f}':>9}")
+                print(f"TOTAL:                           {f'${total_accum:,.2f}':>9}")
+                print()
+            elif not customer_found:
+                print("Customer not found, please try again")
+                break
+
+            is_entering_new_purchase = False
+            while True:
+                confirm_purchase = input("Confirm customer purchase(s)? (Y/N): ").upper()
+                if confirm_purchase == 'Y':
+                    print(f"Saving purchase record for customer {p_f_name} {p_l_name}")
+                    with open('purchases.dat', 'a') as p:
+                        for x in range(p_num):
+                            p.write(f"{purchase_num}, {p_f_name}, {p_l_name}, {p_list[x]}\n")
+                            purchase_num += 1
+                        break
+                elif confirm_purchase == 'N':
+                    break
+                else:
+                    print("Invalid confirm purchase input, please try again.")
+
+            option_4_end = input("Press 1 to enter a new purchase record, or END to exit: ")
+            if option_4_end == '1':
+                is_entering_new_purchase = True
+                break
+            elif option_4_end == 'END':
+                with open('constants.dat', "w") as r:
+                    r.write(f'{employee_num}\n')
+                    r.write(f'{customer_num}\n')
+                    r.write(f'{item_num}\n')
+                    r.write(f'{dependent_num}\n')
+                    r.write(f'{purchase_num}\n')
+                    r.write(f'{HST}\n')
+                break
+        if not is_entering_new_purchase:
+            break
 
 
 # Start of the main program
@@ -453,6 +582,7 @@ while True:
                 break
             elif menu_choice == 4:
                 print("")
+                new_purchase()
                 break
             elif menu_choice == 5:
                 print("")
