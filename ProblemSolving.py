@@ -3,15 +3,18 @@
 import datetime
 today = datetime.date.today()
 current_month = datetime.datetime.now().month
+current_year = datetime.datetime.now().year
 
-# here there would be code to read the month that the program was last used from constants.dat
+
+# here there would be code to read the month and year that the program was last used from constants.dat
 # for now they are just manually included
 
 RATE_COMMISSION = 0.06
 month_of_last_program_use = 3
+year_of_last_program_use = 2023
 
 
-if month_of_last_program_use < current_month:
+if month_of_last_program_use < current_month or year_of_last_program_use < current_year:
     pass
     ## code for reading sales data from previous month
     # print("EMPLOYEE COMMISSION RESULTS")
@@ -35,7 +38,9 @@ if month_of_last_program_use < current_month:
                 # print(f"   {employee_id:<4s}        {f'{employee_first_name:<8s} {employee_last_name:<7s}':<16s}    {f'${employee_comission:<,.2f}':<10s}
     # print("====================================================")
 
-# code goes here to write constants back to the constants.dat, including the current month
+# code goes here to write constants back to the constants.dat, including the current month and current year
     # with open('constants.dat', 'w') as f:
         # f.write(f'{RATE_COMMISSION}\n')
-        # f.write(f'{current_month}
+        # f.write(f'{current_month}\n')
+        # f.write(f'{current_year}\n')
+        
