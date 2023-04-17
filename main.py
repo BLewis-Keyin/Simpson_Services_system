@@ -17,11 +17,11 @@ today = datetime.date.today()
 
 # import constants from constants.dat
 f = open('constants.dat', 'r')
-employee_num = int(f.readline().strip())
-customer_num = int(f.readline().strip())
-item_num = int(f.readline().strip())
-dependent_num = int(f.readline().strip())
-purchase_num = int(f.readline().strip())
+EMPLOYEE_NUM = int(f.readline().strip())
+CUSTOMER_NUM = int(f.readline().strip())
+ITEM_NUM = int(f.readline().strip())
+DEPENDENT_NUM = int(f.readline().strip())
+PURCHASE_NUM = int(f.readline().strip())
 HST = float(f.readline().strip())
 f.close()
 
@@ -30,11 +30,11 @@ provlist = ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'S
 
 
 def new_employee():
-    global employee_num, e_entry_confirmed
-    global dependent_num
+    global EMPLOYEE_NUM, e_entry_confirmed
+    global DEPENDENT_NUM
     is_entering_new_employee = True
     while is_entering_new_employee:
-        print("Simpson Carpet World Employee registration\nPlease input the information below:")
+        print("SIMPSON CARPET WORLD\nEMPLOYEE REGISTRATION\n:")
 
         while True:
             e_first_name = input("Employee First Name: ").capitalize()
@@ -157,7 +157,7 @@ def new_employee():
         print(f"EMPLOYEE CITY:                            {e_city}")
         print(f"EMPLOYEE PROVINCE:                        {e_province}")
         print(f"EMPLOYEE POSTAL CODE:                     {e_postcode}")
-        print(f"EMPLOYEE NUMBER:                          {employee_num}")
+        print(f"EMPLOYEE NUMBER:                          {EMPLOYEE_NUM}")
         print(f"EMPLOYEE BIRTH DATE:                      {e_date_of_birth}")
         print(f"DATE OF HIRE:                             {e_date_of_hire}")
         print(f"BRANCH                                    {e_branch}")
@@ -176,15 +176,15 @@ def new_employee():
 
                 with open('employee.dat', 'a') as e:
                     e.write(
-                        f"{employee_num}, {e_first_name}, {e_last_name}, {e_address}, {e_city}, {e_province}, {e_telephone}, {e_date_of_hire}, {e_branch}, {e_title}, {e_salary}, {e_num_dep}\n")
-                    employee_num += 1
+                        f"{EMPLOYEE_NUM}, {e_first_name}, {e_last_name}, {e_address}, {e_city}, {e_province}, {e_telephone}, {e_date_of_hire}, {e_branch}, {e_title}, {e_salary}, {e_num_dep}\n")
+                    EMPLOYEE_NUM += 1
                     print("Employee information saved\n")
 
                 if e_num_dep > 0:
                     with open('dependents.dat', 'a') as g:
                         for x in range(e_num_dep):
-                            g.write(f'{dependent_num}, {e_first_name}, {e_last_name}, {dependent_list[x]}\n')
-                            dependent_num += 1
+                            g.write(f'{DEPENDENT_NUM}, {e_first_name}, {e_last_name}, {dependent_list[x]}\n')
+                            DEPENDENT_NUM += 1
                 break
             elif confirm_employee_entry == 'N':
                 print()
@@ -197,21 +197,21 @@ def new_employee():
                 break
             elif option_1_end == "END":
                 with open('constants.dat', "w") as r:
-                    r.write(f'{employee_num}\n')
-                    r.write(f'{customer_num}\n')
-                    r.write(f'{item_num}\n')
-                    r.write(f'{dependent_num}\n')
-                    r.write(f'{purchase_num}\n')
+                    r.write(f'{EMPLOYEE_NUM}\n')
+                    r.write(f'{CUSTOMER_NUM}\n')
+                    r.write(f'{ITEM_NUM}\n')
+                    r.write(f'{DEPENDENT_NUM}\n')
+                    r.write(f'{PURCHASE_NUM}\n')
                     r.write(f'{HST}\n')
                 break
 
 
 def new_customer():
-    global customer_num
+    global CUSTOMER_NUM
     global purchases_num
     is_entering_new_customer = True
     while is_entering_new_customer:
-        print("Simpson Carpet World Customer registration\nPlease input the information below:")
+        print("SIMPSON CARPET WORLD\nCUSTOMER REGISTRATION\n:")
         while True:
             c_first_name = input("Customer First Name: ").capitalize()
             break
@@ -277,7 +277,7 @@ def new_customer():
             break
         print()
         print(f"CUSTOMER NAME:                            {c_first_name} {c_last_name}")
-        print(f"CUSTOMER NUMBER:                          {customer_num}")
+        print(f"CUSTOMER NUMBER:                          {CUSTOMER_NUM}")
         print(f"CUSTOMER BIRTH DATE:                      {c_date_of_birth}")
         print(f"DATE OF JOINING:                          {c_date_of_joining}")
         print(f"BRANCH JOINED AT                          {c_branch}")
@@ -288,8 +288,8 @@ def new_customer():
                 is_entering_new_customer = False
                 with open('customers.dat', 'a') as c:
                     c.write(
-                        f"{customer_num}, {c_first_name}, {c_last_name}, {c_address}, {c_city}, {c_province}, {c_telephone}, {c_date_of_birth}, {c_date_of_joining}, {c_branch}\n")
-                customer_num += 1
+                        f"{CUSTOMER_NUM}, {c_first_name}, {c_last_name}, {c_address}, {c_city}, {c_province}, {c_telephone}, {c_date_of_birth}, {c_date_of_joining}, {c_branch}\n")
+                CUSTOMER_NUM += 1
                 print("Customer information saved\n")
                 break
             elif confirm_customer_entry == 'N':
@@ -303,21 +303,21 @@ def new_customer():
                 break
             elif option_2_end == "END":
                 with open('constants.dat', "w") as r:
-                    r.write(f'{employee_num}\n')
-                    r.write(f'{customer_num}\n')
-                    r.write(f'{item_num}\n')
-                    r.write(f'{dependent_num}\n')
-                    r.write(f'{purchase_num}\n')
+                    r.write(f'{EMPLOYEE_NUM}\n')
+                    r.write(f'{CUSTOMER_NUM}\n')
+                    r.write(f'{ITEM_NUM}\n')
+                    r.write(f'{DEPENDENT_NUM}\n')
+                    r.write(f'{PURCHASE_NUM}\n')
                     r.write(f'{HST}\n')
                 break
 
 
 def new_item():
     is_entering_new_item = True
-    global item_num
+    global ITEM_NUM
 
     while is_entering_new_item:
-        print("Simpson Carpet World New Inventory Item\nPlease input the information below:")
+        print("SIMPSON CARPET WORLD\nINVENTORY ITEM REGISTRATION\n:")
 
         while True:
             i_name = input("Item Name: ")
@@ -396,7 +396,7 @@ def new_item():
             else:
                 break
 
-        print(f"ITEM NUMBER:                              {item_num}")
+        print(f"ITEM NUMBER:                              {ITEM_NUM}")
         print(f"ITEM NAME:                                {i_name}")
         print(f"ITEM TYPE:                                {i_type}")
         print(f"ITEM DESCRIPTION:                         {i_desc}")
@@ -414,8 +414,8 @@ def new_item():
             if confirm_item_entry == 'Y':
                 is_entering_new_item = False
                 with open('items.dat', 'a') as e:
-                    e.write(f"{item_num}, {i_name}, {i_type}, {i_desc}, {i_colour}, {i_size}, {i_pattern}, {i_cost}, {i_retail}, {i_qoh}, {i_reorder}, {i_max}\n")
-                    item_num += 1
+                    e.write(f"{ITEM_NUM}, {i_name}, {i_type}, {i_desc}, {i_colour}, {i_size}, {i_pattern}, {i_cost}, {i_retail}, {i_qoh}, {i_reorder}, {i_max}\n")
+                    ITEM_NUM += 1
                     print("Item information saved\n")
                 break
             elif confirm_item_entry == 'N':
@@ -429,17 +429,17 @@ def new_item():
                 break
             elif option_3_end == "END":
                 with open('constants.dat', "w") as r:
-                    r.write(f'{employee_num}\n')
-                    r.write(f'{customer_num}\n')
-                    r.write(f'{item_num}\n')
-                    r.write(f'{dependent_num}\n')
-                    r.write(f'{purchase_num}\n')
+                    r.write(f'{EMPLOYEE_NUM}\n')
+                    r.write(f'{CUSTOMER_NUM}\n')
+                    r.write(f'{ITEM_NUM}\n')
+                    r.write(f'{DEPENDENT_NUM}\n')
+                    r.write(f'{PURCHASE_NUM}\n')
                     r.write(f'{HST}\n')
                 break
 
 
 def new_purchase():
-    global purchase_num, HST
+    global PURCHASE_NUM, HST
     is_entering_new_purchase = True
 
     hst_accum = float(0)
@@ -448,6 +448,7 @@ def new_purchase():
 
     while True:
         while is_entering_new_purchase:
+            print("SIMPSON CARPET WORLD\nPURCHASE RECORD REGISTRATION\n")
 
             while True:
                 p_f_name = input("Customer First Name: ").capitalize()
@@ -468,7 +469,7 @@ def new_purchase():
                 for customerdataline in p:
                     customerline = customerdataline.split(",")
 
-                    p_customer_num = customerline[0].strip().replace(" ", "", 0)
+                    p_CUSTOMER_NUM = customerline[0].strip().replace(" ", "", 0)
                     p_c_first_name = customerline[1].strip().replace(" ", "", 0)
                     p_c_last_name = customerline[2].strip().replace(" ", "", 0)
 
@@ -545,7 +546,7 @@ def new_purchase():
                     break
 
                 print(f"CUSTOMER NAME:                          {p_f_name} {p_l_name}")
-                print(f"CUSTOMER NUMBER:                        {p_customer_num}")
+                print(f"CUSTOMER NUMBER:                        {p_CUSTOMER_NUM}")
                 print(f"TOTAL PURCHASES:                        {p_num}")
                 for x in range(p_num):
                     out_item_cost = float(p_list_item_cost[x])
@@ -572,8 +573,8 @@ def new_purchase():
                         print(f"Saving purchase record for customer {p_f_name} {p_l_name}")
                         with open('purchases.dat', 'a') as p:
                             for x in range(p_num):
-                                p.write(f"{purchase_num}, {today}, {p_f_name}, {p_l_name}, {p_list[x]}\n")
-                                purchase_num += 1
+                                p.write(f"{PURCHASE_NUM}, {today}, {p_f_name}, {p_l_name}, {p_list[x]}\n")
+                                PURCHASE_NUM += 1
                             break
                     elif confirm_purchase == 'N':
                         break
@@ -588,11 +589,11 @@ def new_purchase():
                     break
                 elif option_4_end == 'END':
                     with open('constants.dat', "w") as r:
-                        r.write(f'{employee_num}\n')
-                        r.write(f'{customer_num}\n')
-                        r.write(f'{item_num}\n')
-                        r.write(f'{dependent_num}\n')
-                        r.write(f'{purchase_num}\n')
+                        r.write(f'{EMPLOYEE_NUM}\n')
+                        r.write(f'{CUSTOMER_NUM}\n')
+                        r.write(f'{ITEM_NUM}\n')
+                        r.write(f'{DEPENDENT_NUM}\n')
+                        r.write(f'{PURCHASE_NUM}\n')
                         r.write(f'{HST}\n')
                     break
                 else:
@@ -606,7 +607,7 @@ def print_employee_list():
         print(f"SIMPSON CARPET WORLD\nEMPLOYEE LIST\n")
         print(f"EMPLOYEE          EMPLOYEE          DATE OF         EMPLOYEE        EMPLOYEE      EMPLOYEE ")
         print(f" NUMBER             NAME             HIRE            BRANCH           PH #         TITLE ")
-        print(f"===========================================================================================")
+        print(f"=============================================================================================")
 
         employee_counter = 0
         employee_branch_1_counter = 0
@@ -619,7 +620,7 @@ def print_employee_list():
         for employeedataline in l:
             dataline = employeedataline.split(",")
 
-            l_employee_num = dataline[0].strip().replace(" ", "", 0)
+            l_EMPLOYEE_NUM = dataline[0].strip().replace(" ", "", 0)
             l_e_first_name = dataline[1].strip().replace(" ", "", 0)
             l_e_last_name = dataline[2].strip().replace(" ", "", 0)
             l_e_telephone = dataline[6].strip().replace(" ", "", 0)
@@ -639,8 +640,8 @@ def print_employee_list():
                 employee_branch_5_counter += 1
             employee_counter += 1
 
-            print(f"    {l_employee_num:<2s}           {f'{l_e_first_name:<.6s} {l_e_last_name:<.6s}':<13s}    {l_e_doh:<10s}           {l_e_branch}           {l_e_telephone:<10s}      {l_e_title}")
-        print("===========================================================================================")
+            print(f"    {l_EMPLOYEE_NUM:<2s}           {f'{l_e_first_name:<.6s} {l_e_last_name:<.6s}':<13s}    {l_e_doh:<10s}           {l_e_branch}           {l_e_telephone:<10s}    {f'{l_e_title:^.13s}':<13s}")
+        print("=============================================================================================")
         print(f"BRANCH #                                      EMPLOYEES")
         print(f"BRANCH 1:                                         {employee_branch_1_counter}")
         print(f"BRANCH 2:                                         {employee_branch_2_counter}")
