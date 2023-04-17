@@ -280,7 +280,7 @@ def new_customer():
         print(f"CUSTOMER NUMBER:                          {CUSTOMER_NUM}")
         print(f"CUSTOMER BIRTH DATE:                      {c_date_of_birth}")
         print(f"DATE OF JOINING:                          {c_date_of_joining}")
-        print(f"BRANCH JOINED AT                          {c_branch}")
+        print(f"BRANCH JOINED AT:                         {c_branch}")
 
         while True:
             confirm_customer_entry = input("Confirm customer information? (Y/N): ").upper()
@@ -654,6 +654,39 @@ def print_employee_list():
         input("Press any key to return to the main menu... : ")
 
 
+def print_customers_by_branch():
+    customer_branch_counter = 0
+    with open("customers.dat", "r") as j:
+        branch_select = input("Enter branch number: ")
+        print()
+        print(f"SIMPSON CARPET WORLD\nCUSTOMER LIST FOR BRANCH # {branch_select}\n")
+        print(f"CUSTOMER          CUSTOMER          DATE OF         CUSTOMER        CUSTOMER        CUSTOMER      CUSTOMER")
+        print(f" NUMBER             NAME             JOIN             DOB             PH #            CITY        PROVINCE")
+        print(f"==============================================================================================================")
+        for customerdataline in j:
+            customerline = customerdataline.split(",")
+
+            p_CUSTOMER_NUM = customerline[0].strip().replace(" ", "", 0)
+            p_c_first_name = customerline[1].strip().replace(" ", "", 0)
+            p_c_last_name = customerline[2].strip().replace(" ", "", 0)
+            p_c_branch = customerline[9].strip().replace(" ", "", 0)
+            p_c_dob = customerline[7].strip().replace(" ", "", 0)
+            p_c_tel = customerline[6].strip().replace(" ", "", 0)
+            p_c_doj = customerline[8].strip().replace(" ", "", 0)
+            p_c_city = customerline[4].strip().replace(" ", "", 0)
+            p_c_prov = customerline[5].strip().replace(" ", "", 0)
+            if p_c_branch == branch_select:
+                print(f"   {p_CUSTOMER_NUM:<4s}         {f'{p_c_first_name:<.7s} {p_c_last_name:<.8s}':<16s}   {p_c_doj:<10s}      {p_c_dob:<10s}      {p_c_tel:<10s}       {f'{p_c_city:<.10s}':<10s}      {p_c_prov:<2s} ")
+                customer_branch_counter += 1
+        if customer_branch_counter == 0:
+            print(f"No customers found in branch {branch_select}")
+        print(f"==============================================================================================================")
+        print(f"TOTAL CUSTOMERS BRANCH # {branch_select}: {customer_branch_counter}")
+        print()
+
+        input("Press any key to return to the main menu... : ")
+
+
 # Start of the main program
 while True:
 
@@ -700,6 +733,7 @@ while True:
                 break
             elif menu_choice == 6:
                 print("")
+                print_customers_by_branch()
                 break
             elif menu_choice == 7:
                 print("")
