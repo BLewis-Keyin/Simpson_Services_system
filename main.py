@@ -467,13 +467,13 @@ def new_purchase():
             customer_found = False
             with open('customers.dat', 'r') as p:
                 for customerdataline in p:
+
                     customerline = customerdataline.split(",")
 
-                    p_CUSTOMER_NUM = customerline[0].strip().replace(" ", "", 0)
                     p_c_first_name = customerline[1].strip().replace(" ", "", 0)
                     p_c_last_name = customerline[2].strip().replace(" ", "", 0)
-
                     if p_c_first_name == p_f_name and p_c_last_name == p_l_name:
+                        p_CUSTOMER_NUM = customerline[0].strip().replace(" ", "", 0)
                         customer_found = True
 
             if not customer_found:
@@ -582,7 +582,7 @@ def new_purchase():
                         print("Invalid confirm purchase input, please try again.")
 
             while True:
-                option_4_end = input("Press 1 to enter a new purchase record, or END to exit: ")
+                option_4_end = input("Press 1 to enter a new purchase record, or END to exit: ").upper()
                 if option_4_end == '1':
                     is_entering_new_purchase = True
                     print()
@@ -679,12 +679,50 @@ def print_customers_by_branch():
                 print(f"   {p_CUSTOMER_NUM:<4s}         {f'{p_c_first_name:<.7s} {p_c_last_name:<.8s}':<16s}   {p_c_doj:<10s}      {p_c_dob:<10s}      {p_c_tel:<10s}       {f'{p_c_city:<.10s}':<10s}      {p_c_prov:<2s} ")
                 customer_branch_counter += 1
         if customer_branch_counter == 0:
-            print(f"No customers found in branch {branch_select}")
+            print(f"                          No customers found in branch {branch_select}")
         print(f"==============================================================================================================")
         print(f"TOTAL CUSTOMERS BRANCH # {branch_select}: {customer_branch_counter}")
         print()
 
         input("Press any key to return to the main menu... : ")
+
+def print_orders_by_customer():
+    customer_order_counter = 0
+    customer_total_accum = 0
+    with open("purchases.dat", "r") as u:
+        customer_select_f = input("Enter customer first name: ").capitalize()
+        customer_select_l = input("Enter customer last name: ").capitalize()
+        print()
+        print(f"SIMPSON CARPET WORLD\nPURCHASES LIST FOR {customer_select_f.upper()} {customer_select_l.upper()}\n")
+        print(f"PURCHASE          CUSTOMER          DATE OF         PURCHASED FROM        ITEM        ITEM")
+        print(f" NUMBER             NAME            PURCHASE            BRANCH            NAME        COST")
+        print(
+            f"===============================================================================================")
+        for purchasesdataline in u:
+            purchasesline = purchasesdataline.split(",")
+
+            l_PURCHASE_NUM = purchasesline[0].strip().replace(" ", "", 0)
+            l_p_date = purchasesline[1].strip().replace(" ", "", 0)
+            l_p_f_name = purchasesline[2].strip().replace(" ", "", 0)
+            l_p_l_name = purchasesline[3].strip().replace(" ", "", 0)
+            l_p_branch = purchasesline[4].strip().replace(" ", "", 0)
+            l_p_item_name = purchasesline[5].strip().replace(" ", "", 0)
+            l_p_item_cost = float(purchasesline[6].strip().replace(" ", "", 0))
+            if l_p_f_name == customer_select_f and l_p_l_name == customer_select_l:
+                print(
+                    f"   {l_PURCHASE_NUM:<4s}           {f'{l_p_f_name:<.7s} {l_p_l_name:<.8s}':<16s} {l_p_date:<10s}             {l_p_branch:<1s}        {f'{l_p_item_name:<.16s}':<16s}    {f'${l_p_item_cost:>,.2f}':<10s} ")
+                customer_order_counter += 1
+                customer_total_accum += l_p_item_cost
+        if customer_order_counter == 0:
+            print(f"                       No purchases found for customer {customer_select_f.upper()} {customer_select_l.upper()}")
+        print(
+            f"===============================================================================================")
+        print(f"TOTAL ORDERS FROM CUSTOMER {customer_select_f.upper()} {customer_select_l.upper()}: {customer_order_counter}")
+        print(f"TOTAL COST: {f'${customer_total_accum:<,.2f}'}")
+        print()
+
+        input("Press any key to return to the main menu... : ")
+
 
 
 # Start of the main program
@@ -737,6 +775,7 @@ while True:
                 break
             elif menu_choice == 7:
                 print("")
+                print_orders_by_customer()
                 break
             elif menu_choice == 8:
                 print("")
