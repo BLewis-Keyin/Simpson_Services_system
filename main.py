@@ -480,6 +480,7 @@ def new_purchase():
                 print()
                 print("Customer not found, Please try again")
                 print()
+
             while customer_found:
 
                 while True:
@@ -600,6 +601,57 @@ def new_purchase():
         if not is_entering_new_purchase:
             break
 
+def print_employee_list():
+    with open("employee.dat", "r") as l:
+        print(f"SIMPSON CARPET WORLD\nEMPLOYEE LIST\n")
+        print(f"EMPLOYEE          EMPLOYEE          DATE OF         EMPLOYEE        EMPLOYEE      EMPLOYEE ")
+        print(f" NUMBER             NAME             HIRE            BRANCH           PH #         TITLE ")
+        print(f"===========================================================================================")
+
+        employee_counter = 0
+        employee_branch_1_counter = 0
+        employee_branch_2_counter = 0
+        employee_branch_3_counter = 0
+        employee_branch_4_counter = 0
+        employee_branch_5_counter = 0
+
+        # start of the employee list for loop
+        for employeedataline in l:
+            dataline = employeedataline.split(",")
+
+            l_employee_num = dataline[0].strip().replace(" ", "", 0)
+            l_e_first_name = dataline[1].strip().replace(" ", "", 0)
+            l_e_last_name = dataline[2].strip().replace(" ", "", 0)
+            l_e_telephone = dataline[6].strip().replace(" ", "", 0)
+            l_e_doh = dataline[7].strip().replace(" ", "", 0)
+            l_e_branch = dataline[8].strip().replace(" ", "", 0)
+            l_e_title = dataline[9].strip().replace(" ", "", 0)
+
+            if l_e_branch == '1':
+                employee_branch_1_counter += 1
+            if l_e_branch == '2':
+                employee_branch_2_counter += 1
+            if l_e_branch == '3':
+                employee_branch_3_counter += 1
+            if l_e_branch == '4':
+                employee_branch_4_counter += 1
+            if l_e_branch == '5':
+                employee_branch_5_counter += 1
+            employee_counter += 1
+
+            print(f"    {l_employee_num:<2s}           {f'{l_e_first_name:<.6s} {l_e_last_name:<.6s}':<13s}    {l_e_doh:<10s}           {l_e_branch}           {l_e_telephone:<10s}      {l_e_title}")
+        print("===========================================================================================")
+        print(f"BRANCH #                                      EMPLOYEES")
+        print(f"BRANCH 1:                                         {employee_branch_1_counter}")
+        print(f"BRANCH 2:                                         {employee_branch_2_counter}")
+        print(f"BRANCH 3:                                         {employee_branch_3_counter}")
+        print(f"BRANCH 4:                                         {employee_branch_4_counter}")
+        print(f"BRANCH 5:                                         {employee_branch_5_counter}")
+        print(f" TOTAL NUM EMPLOYEES:     {employee_counter}")
+        print()
+
+        input("Press any key to return to the main menu... : ")
+
 
 # Start of the main program
 while True:
@@ -643,6 +695,7 @@ while True:
                 break
             elif menu_choice == 5:
                 print("")
+                print_employee_list()
                 break
             elif menu_choice == 6:
                 print("")
