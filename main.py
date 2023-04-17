@@ -1,15 +1,6 @@
 # Made by Group 5
 # 4/05/2023
 
-'''
-Constants that could be defined:
-
-Customer Number Counter
-Employee Number Counter
-Inventory Item Number Counter
-HST
-
-'''
 
 # Import modules
 import datetime
@@ -317,7 +308,7 @@ def new_item():
     global ITEM_NUM
 
     while is_entering_new_item:
-        print("SIMPSON CARPET WORLD\nINVENTORY ITEM REGISTRATION\n:")
+        print("SIMPSON CARPET WORLD\nINVENTORY ITEM REGISTRATION\n")
 
         while True:
             i_name = input("Item Name: ")
@@ -602,6 +593,7 @@ def new_purchase():
         if not is_entering_new_purchase:
             break
 
+
 def print_employee_list():
     with open("employee.dat", "r") as l:
         print(f"SIMPSON CARPET WORLD\nEMPLOYEE LIST\n")
@@ -686,6 +678,7 @@ def print_customers_by_branch():
 
         input("Press any key to return to the main menu... : ")
 
+
 def print_orders_by_customer():
     customer_order_counter = 0
     customer_total_accum = 0
@@ -723,6 +716,41 @@ def print_orders_by_customer():
 
         input("Press any key to return to the main menu... : ")
 
+
+def print_reorder_list():
+    reorder_counter = 0
+    reorder_cost_accum = 0
+    with open('items.dat', 'r') as o:
+        print()
+        print(f"SIMPSON CARPET WORLD\nREORDER LIST\n")
+        print(f"  ITEM        ITEM            ITEM              ITEM            ITEM         ITEM         ITEM     REORDER")
+        print(f" NUMBER       NAME          ORDER COST       RETAIL COST      QUANTITY   REORDER POINT   MAXIMUM   AMOUNT")
+        print(f"============================================================================================================")
+        for itemdataline in o:
+            itemline = itemdataline.split(",")
+
+            l_ITEM_NUM = itemline[0].strip().replace(" ", "", 0)
+            l_i_name = itemline[1].strip().replace(" ", "", 0)
+            l_i_cost = float(itemline[7].strip().replace(" ", "", 0))
+            l_i_retail = float(itemline[8].strip().replace(" ", "", 0))
+            l_i_qoh = int(itemline[9].strip().replace(" ", "", 0))
+            l_i_reorder = int(itemline[10].strip().replace(" ", "", 0))
+            l_i_max = int(itemline[11].strip().replace(" ", "", 0))
+
+            if l_i_qoh < l_i_reorder:
+                l_i_reorder_amt = (l_i_max - l_i_qoh)
+                print(f"   {l_ITEM_NUM:<4s}    {f'{l_i_name:<.12s}':<12s}      {f'${l_i_cost:<,.2f}':<10s}       {f'${l_i_retail:<,.2f}':<10s}         {l_i_qoh:<4d}          {l_i_reorder:<4d}        {l_i_max:<4d}      {l_i_reorder_amt}")
+                reorder_counter += 1
+                reorder_cost_accum += l_i_cost
+
+            if reorder_counter == 0:
+                print("                               No reorders needed at this time")
+        print(f"============================================================================================================")
+        print(f"TOTAL REORDERS: {reorder_counter}")
+        print(f"TOTAL REORDER COST: {f'${reorder_cost_accum:<,.2f}'}")
+        print()
+
+        input("Press any key to return to the main menu... : ")
 
 
 # Start of the main program
@@ -779,6 +807,7 @@ while True:
                 break
             elif menu_choice == 8:
                 print("")
+                print_reorder_list()
                 break
             elif menu_choice == 9:
                 exit()
